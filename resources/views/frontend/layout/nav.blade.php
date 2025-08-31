@@ -34,7 +34,7 @@
                             </li>
                             <li><a class="dropdown-item" href="/profile"><i class="bi bi-person-lines-fill me-2"></i>
                                     Profile</a></li>
-                            <li><a class="dropdown-item text-danger" href=""><i
+                            <li><a class="dropdown-item text-danger" href="{{ route('user-logout') }}"><i
                                         class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                         </ul>
                     </li>

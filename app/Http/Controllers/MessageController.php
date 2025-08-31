@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
+    public function index(){
+        $messages = Message::latest()->get();
+        return view('backend.pages.message.message_show', compact('messages'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -28,5 +33,18 @@ class MessageController extends Controller
 
         sweetalert()->success('Your message send successfully.');
         return back();
+    }
+
+      public function show(string $id)
+    {
+         $message = Message::findOrFail($id); // fetch message by ID
+            return view('backend.pages.message.message_read', compact('message'));
+    }
+
+    public function destroy(string $id)
+    {
+        Message::findOrFail($id)->delete();
+        sweetalert()->success('Message deleted successfully');
+        return redirect()->back();
     }
 }
