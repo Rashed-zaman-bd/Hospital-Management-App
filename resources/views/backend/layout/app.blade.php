@@ -8,6 +8,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- DataTables CSS (Tailwind integration optional) -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+
+
 
 
 </head>
@@ -35,6 +40,11 @@
     </div>
 
     <!-- Script -->
+    <!-- jQuery (required by DataTables) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const menuBtn = document.getElementById('menu-btn');

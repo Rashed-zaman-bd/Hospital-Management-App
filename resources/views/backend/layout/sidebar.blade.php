@@ -41,7 +41,7 @@
                 </div>
                 <ul class="submenu hidden ml-6 mt-2 space-y-2">
                     <li>
-                        <a href="#" class="block px-4 py-2 rounded bg-gray-700">
+                        <a href="{{ route('backend.doctor') }}" class="block px-4 py-2 rounded bg-gray-700">
                             <i class='bx bx-radio-circle'></i>All Doctor
                         </a>
                     </li>

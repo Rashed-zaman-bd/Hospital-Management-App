@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
@@ -9,7 +10,7 @@ use App\Http\Controllers\AppointmentController;
 use Faker\Guesser\Name;
 use Symfony\Component\Translation\MessageCatalogue;
 
-Route::get('/', function () {return view('index');})->name('page.index');
+Route::get('/', [DoctorController::class, 'index'])->name('page.index');
 Route::get('/about', function () {return view('frontend.pages.about_page');})->name('page.about');
 Route::get('/services', function () {return view('frontend.pages.services_page');})->name('page.services');
 Route::get('/departments', function () {return view('frontend.pages.departments_page');})->name('page.departments');
@@ -37,7 +38,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/user/{request}', [UserController::class, 'destroy'])->name('delete.user');
     Route::put('/admin/users/{id}', [UserController::class, 'update'])->name('backend.user.update');
 
-
+    Route::get('/backend/doctor', [DoctorController::class, 'show'])->name('backend.doctor');
 
 });
 

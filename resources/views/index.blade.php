@@ -53,114 +53,6 @@
 
     </section><!-- /Hero Section -->
 
-    <!-- Featured Services Section -->
-    <section id="featured-services" class="featured-services section">
-
-        <div class="container">
-
-            <div class="row gy-4">
-
-                <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-item position-relative">
-                        <div class="icon"><i class="fas fa-heartbeat icon"></i></div>
-                        <h4><a href="" class="stretched-link">Lorem Ipsum</a></h4>
-                        <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-                    </div>
-                </div><!-- End Service Item -->
-
-                <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-item position-relative">
-                        <div class="icon"><i class="fas fa-pills icon"></i></div>
-                        <h4><a href="" class="stretched-link">Sed ut perspici</a></h4>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-                    </div>
-                </div><!-- End Service Item -->
-
-                <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-item position-relative">
-                        <div class="icon"><i class="fas fa-thermometer icon"></i></div>
-                        <h4><a href="" class="stretched-link">Magni Dolores</a></h4>
-                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-                    </div>
-                </div><!-- End Service Item -->
-
-                <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
-                    <div class="service-item position-relative">
-                        <div class="icon"><i class="fas fa-dna icon"></i></div>
-                        <h4><a href="" class="stretched-link">Nemo Enim</a></h4>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-                    </div>
-                </div><!-- End Service Item -->
-
-            </div>
-
-        </div>
-
-    </section><!-- /Featured Services Section -->
-
-    <!-- Call To Action Section -->
-    <section id="call-to-action" class="call-to-action section accent-background">
-
-        <div class="container">
-            <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
-                <div class="col-xl-10">
-                    <div class="text-center">
-                        <h3>In an emergency? Need help now?</h3>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                            mollit anim id est laborum.</p>
-                        <a class="cta-btn" href="#appointment">Make an Appointment</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </section><!-- /Call To Action Section -->
-
-    <!-- About Section -->
-    <section id="about" class="about section">
-
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2>About Us<br></h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
-
-        <div class="container">
-
-            <div class="row gy-4">
-                <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="100">
-                    <img src="assets/img/about.jpg" class="img-fluid" alt="">
-                    <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
-                </div>
-                <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="200">
-                    <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
-                    <p class="fst-italic">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                        et dolore
-                        magna aliqua.
-                    </p>
-                    <ul>
-                        <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat.</span></li>
-                        <li><i class="bi bi-check2-all"></i> <span>Duis aute irure dolor in reprehenderit in voluptate
-                                velit.</span></li>
-                        <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu
-                                fugiat nulla pariatur.</span></li>
-                    </ul>
-                    <p>
-                        Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                        voluptate
-                        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
-                    </p>
-                </div>
-            </div>
-
-        </div>
-
-    </section><!-- /About Section -->
-
     <!-- Stats Section -->
     <section id="stats" class="stats section">
 
@@ -218,62 +110,107 @@
 
     </section><!-- /Stats Section -->
 
-    <!-- Features Section -->
-    <section id="features" class="features section">
+    <!-- Doctors Section -->
+    <section id="doctors" class="doctors section light-background">
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Doctors</h2>
+            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+            <div class="row gy-3">
+
+                @foreach ($doctors as $doctor)
+                    <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="">
+                        <div class="card shadow-lg border-0 rounded-3 h-100 position-relative overflow-hidden"
+                            style="background: linear-gradient(145deg, #f8f9fa, #ffffff); display: flex; flex-direction: column;">
+
+                            <!-- Image -->
+                            <div class="doctor-img-wrapper" style="height: 300px; border-radius: 8px; overflow: hidden;">
+                                @if ($doctor->image)
+                                    <img src="{{ asset($doctor->image) }}" alt="{{ $doctor->name }}"
+                                        style="width: 100%; height: 100%; object-fit: cover; object-position: center; overflow: hidden;">
+                                @else
+                                    <img src="https://via.placeholder.com/300x300" alt="No Image"
+                                        style="width: 100%; height: 100%; object-fit: cover; object-position: center; overflow: hidden;">
+                                @endif
+                            </div>
+
+                            <!-- Title / Info -->
+                            <div class="text-start p-3">
+                                <h6 class="fw-bold text-dark mb-1">{{ $doctor->name }}</h6>
+                                <small class="text-muted">{{ $doctor->description ?? 'Doctor' }}</small>
+
+                                <h6 class="fw-semi-bold text-dark mt-3">Speciality</h6>
+                                <small class="text-muted">{{ $doctor->speciality ?? 'Not Available' }}</small>
+
+                                <h6 class="fw-semi-bold text-dark mt-3">Qualification</h6>
+                                <small class="text-muted">{{ $doctor->qualification ?? 'Not Provided' }}</small>
+
+                                <h6 class="fw-semi-bold text-dark mt-3">Hospital</h6>
+                                <small class="text-muted">{{ $doctor->hospital ?? 'Not Mentioned' }}</small>
+                            </div>
+
+                            <!-- Button -->
+                            <div class="p-3 mt-auto">
+                                <a href="#" class="btn btn-dark w-100 shadow-sm"
+                                    style="background: #3f73c0; border: none;">
+                                    Book an Appointment
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+        </div>
+
+    </section><!-- /Doctors Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>About Us<br></h2>
+            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        </div><!-- End Section Title -->
 
         <div class="container">
 
-            <div class="row justify-content-around gy-4">
-                <div class="features-image col-lg-6" data-aos="fade-up" data-aos-delay="100"><img
-                        src="assets/img/features.jpg" alt=""></div>
-
-                <div class="col-lg-5 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
-                    <h3>Enim quis est voluptatibus aliquid consequatur fugiat</h3>
-                    <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima
-                        temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi</p>
-
-                    <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
-                        <i class="fa-solid fa-hand-holding-medical flex-shrink-0"></i>
-                        <div>
-                            <h4><a href="" class="stretched-link">Lorem Ipsum</a></h4>
-                            <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati
-                                cupiditate non provident</p>
-                        </div>
-                    </div><!-- End Icon Box -->
-
-                    <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="400">
-                        <i class="fa-solid fa-suitcase-medical flex-shrink-0"></i>
-                        <div>
-                            <h4><a href="" class="stretched-link">Nemo Enim</a></h4>
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                                voluptatum deleniti atque</p>
-                        </div>
-                    </div><!-- End Icon Box -->
-
-                    <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="500">
-                        <i class="fa-solid fa-staff-snake flex-shrink-0"></i>
-                        <div>
-                            <h4><a href="" class="stretched-link">Dine Pad</a></h4>
-                            <p>Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit. Sunt aut deserunt
-                                minus aut eligendi omnis</p>
-                        </div>
-                    </div><!-- End Icon Box -->
-
-                    <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="600">
-                        <i class="fa-solid fa-lungs flex-shrink-0"></i>
-                        <div>
-                            <h4><a href="" class="stretched-link">Tride clov</a></h4>
-                            <p>Est voluptatem labore deleniti quis a delectus et. Saepe dolorem libero sit non aspernatur
-                                odit amet. Et eligendi</p>
-                        </div>
-                    </div><!-- End Icon Box -->
-
+            <div class="row gy-4">
+                <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="100">
+                    <img src="assets/img/about.jpg" class="img-fluid" alt="">
+                    <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
+                </div>
+                <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
+                    <p class="fst-italic">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore
+                        magna aliqua.
+                    </p>
+                    <ul>
+                        <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat.</span></li>
+                        <li><i class="bi bi-check2-all"></i> <span>Duis aute irure dolor in reprehenderit in voluptate
+                                velit.</span></li>
+                        <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu
+                                fugiat nulla pariatur.</span></li>
+                    </ul>
+                    <p>
+                        Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                        voluptate
+                        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
+                    </p>
                 </div>
             </div>
 
         </div>
 
-    </section><!-- /Features Section -->
+    </section><!-- /About Section -->
 
     <!-- Services Section -->
     <section id="services" class="services section">
@@ -594,12 +531,12 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="testimonial-item" "="">
-                                                   <p>
-                                                     <i class=" bi bi-quote quote-icon-left"></i>
-                                                       <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
-                                                       <i class="bi bi-quote quote-icon-right"></i>
-                                                    </p>
-                                                    <img src="assets/img/testimonials/testimoclass="testimonial-img"
+                                                                                                                                                                                                                       <p>
+                                                                                                                                                                                                                         <i class=" bi bi-quote quote-icon-left"></i>
+                                                                                                                                                                                                                           <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
+                                                                                                                                                                                                                           <i class="bi bi-quote quote-icon-right"></i>
+                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                        <img src="assets/img/testimonials/testimoclass="testimonial-img"
                             alt="">
                             <h3>Saul Goodman</h3>
                             <h4>Ceo &amp; Founder</h4>
@@ -663,88 +600,6 @@
         </div>
 
     </section><!-- /Testimonials Section -->
-
-    <!-- Doctors Section -->
-    <section id="doctors" class="doctors section light-background">
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Doctors</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
-        <div class="container">
-            <div class="row gy-4">
-                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="assets/img/doctors/doctors-1.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>Walter White</h4>
-                            <span>Chief Medical Officer</span>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="assets/img/doctors/doctors-2.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>Sarah Jhonson</h4>
-                            <span>Anesthesiologist</span>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="assets/img/doctors/doctors-3.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>William Anderson</h4>
-                            <span>Cardiology</span>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="assets/img/doctors/doctors-4.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>Amanda Jepson</h4>
-                            <span>Neurosurgeon</span>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-            </div>
-        </div>
-
-    </section><!-- /Doctors Section -->
 
     <!-- Gallery Section -->
     <section id="gallery" class="gallery section">
