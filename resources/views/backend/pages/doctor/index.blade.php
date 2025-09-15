@@ -3,15 +3,25 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
-    <div class="p-4">
-        <div class="bg-white shadow-lg rounded-2xl overflow-hidden mb-4">
-            <div class="px-6 py-6 border-b border-gray-200 flex items-center justify-between">
-                <h2 class="text-xl font-semibold text-gray-800">Doctors</h2>
+    <div class="p-4 overflow-y-hidden">
+        <div class="px-6 py-6 border-b border-gray-200 flex items-center justify-between">
+            <h2 class="text-xl font-semibold text-gray-800">Doctors</h2>
+
+            <div class="flex items-center gap-3">
                 <span class="text-md text-gray-700">Total: {{ count($doctors) }}</span>
+
+                <a href="{{ route('doctor.create') }}"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Create
+                </a>
             </div>
         </div>
 
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto overflow-y-hidden">
             <table id="doctorsTable" class="min-w-full divide-y divide-gray-200 display">
                 <thead>
                     <tr>
@@ -35,13 +45,14 @@
                             <td>{{ $doctor->name }}</td>
                             <td>
                                 @if ($doctor->image)
-                                    <img src="{{ asset($doctor->image) }}" class="w-12 h-12 object-cover rounded"
-                                        alt="{{ $doctor->name }}">
+                                    <img src="{{ asset('storage/' . $doctor->image) }}"
+                                        class="w-32 h-32 object-cover rounded" alt="{{ $doctor->name }}">
                                 @else
                                     <img src="https://via.placeholder.com/50" class="w-12 h-12 object-cover rounded"
                                         alt="No Image">
                                 @endif
                             </td>
+
                             <td>{{ $doctor->phone }}</td>
                             <td>{{ $doctor->email }}</td>
                             <td>{{ $doctor->description }}</td>
@@ -50,12 +61,16 @@
                             <td>{{ $doctor->hospital }}</td>
                             <td>{{ $doctor->location }}</td>
                             <td>
-                                <a href="#"
+                                <a href="{{ route('doctor.read', $doctor->id) }}"
                                     class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow">Read</a>
-                                <a href="#"
+                                <a href="{{ route('doctor.edit', $doctor->id) }}"
                                     class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow mt-1 block">Edit</a>
-                                <button
-                                    class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow mt-1 block">Delete</button>
+                                <form action="{{ route('doctor.delete', $doctor->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow mt-1 block">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
@@ -84,7 +99,8 @@
                 columnDefs: [{
                     orderable: false,
                     targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-                        10] // disable sorting for No, Image, Description, Qualification, Action
+                        10
+                    ] // disable sorting for No, Image, Description, Qualification, Action
                 }],
                 initComplete: function() {
                     this.api().columns().every(function(i) {

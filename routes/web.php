@@ -39,6 +39,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/users/{id}', [UserController::class, 'update'])->name('backend.user.update');
 
     Route::get('/backend/doctor', [DoctorController::class, 'show'])->name('backend.doctor');
+    Route::get('/doctor/create', [DoctorController::class, 'create'])->name('doctor.create');
+    Route::post('/doctor/store', [DoctorController::class, 'store'])->name('doctor.store');
+    Route::get('/doctor/show/{id}', [DoctorController::class, 'read'])->name('doctor.read');
+    Route::get('/doctor/edit/{doctor}', [DoctorController::class, 'edit'])->name('doctor.edit');
+    Route::put('/doctor/update/{doctor}', [DoctorController::class, 'update'])->name('doctor.update');
+    Route::delete('/doctor/delete/{doctor}', [DoctorController::class, 'destroy'])->name('doctor.delete');
 
 });
 
