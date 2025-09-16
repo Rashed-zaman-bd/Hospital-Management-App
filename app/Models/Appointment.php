@@ -16,8 +16,13 @@ use HasFactory;
 protected $fillable = ['appointment_code','doctor_id','user_id','patient_name','patient_email','patient_phone','appointment_date','appointment_time','status'];
 
 
-    public function doctor()
-        {
+   public function doctor()
+    {
         return $this->belongsTo(Doctor::class);
-        }
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

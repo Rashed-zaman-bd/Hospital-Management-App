@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Carbon\Carbon;
 use App\Models\Doctor;
 use App\Models\Hospital;
@@ -10,6 +11,7 @@ use App\Models\Speciality;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Models\DoctorSchedule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -45,113 +47,146 @@ class AppointmentController extends Controller
         return response()->json($doctors);
     }
 
-  public function getSchedules(Request $request)
+ public function getSchedules(Request $request)
     {
-        $doctorId = $request->doctor_id;
-        $date = $request->date;
+        $request->validate([
+            'doctor_id' => 'required|exists:doctors,id',
+            'date' => 'required|date|after_or_equal:today',
+        ]);
 
-        // Get all existing slots for this doctor and date
+        $doctorId = $request->doctor_id;
+        $date = Carbon::parse($request->date)->format('Y-m-d');
+        $day = Carbon::parse($date)->format('l');
+
+        // Define slot range: 4:00 PM to 10:00 PM (360 minutes = 36 slots of 10 minutes)
+        $start = Carbon::createFromFormat('Y-m-d H:i:s', $date . ' 16:00:00');
+        $end = Carbon::createFromFormat('Y-m-d H:i:s', $date . ' 22:00:00');
+
+        // Load existing slots for this doctor/date
         $existingSlots = Schedule::where('doctor_id', $doctorId)
             ->where('date', $date)
             ->get()
-            ->keyBy('slot_time'); // key by time for easy lookup
+            ->keyBy('slot_time');
 
-        $startTime = Carbon::createFromTime(16, 0, 0);
-        $endTime = Carbon::createFromTime(22, 0, 0);
         $slots = [];
-        $time = $startTime->copy();
+        $time = $start->copy();
+        $slotCount = 0;
 
-        while ($time < $endTime) {
-            $timeFormatted = $time->format('H:i:s');
+        while ($time->lt($end) && $slotCount < 36) {
+            $slotTimeHms = $time->format('H:i:s');
+            $slotTimeView = $time->format('H:i');
 
-            if (isset($existingSlots[$timeFormatted])) {
-                // Already exists in DB
-                $schedule = $existingSlots[$timeFormatted];
-                $slots[] = [
-                    'id' => $schedule->id,
-                    'slot_time' => $schedule->slot_time,
-                    'status' => $schedule->status,
-                ];
-            } else {
-                // Create new slot in DB
+            // Skip past slots for today
+            if (Carbon::parse($date)->isToday() && $time->lte(Carbon::now())) {
+                $time->addMinutes(10);
+                $slotCount++;
+                continue;
+            }
+
+            // Check if slot exists in DB
+            if (!isset($existingSlots[$slotTimeHms])) {
+                // Create new slot
                 $schedule = Schedule::create([
                     'doctor_id' => $doctorId,
                     'date' => $date,
-                    'slot_time' => $timeFormatted,
+                    'day' => $day,
+                    'slot_time' => $slotTimeHms,
                     'status' => 'available',
                 ]);
-
                 $slots[] = [
                     'id' => $schedule->id,
-                    'slot_time' => $schedule->slot_time,
+                    'slot_time' => $slotTimeView,
                     'status' => $schedule->status,
+                ];
+            } elseif ($existingSlots[$slotTimeHms]->status === 'available') {
+                // Only include available slots
+                $slots[] = [
+                    'id' => $existingSlots[$slotTimeHms]->id,
+                    'slot_time' => $slotTimeView,
+                    'status' => $existingSlots[$slotTimeHms]->status,
                 ];
             }
 
             $time->addMinutes(10);
+            $slotCount++;
         }
 
         return response()->json($slots);
     }
 
-
-
-
-
-
-    // Book Appointment
-   public function store(Request $request)
+    public function store(Request $request)
     {
         if (!Auth::check()) {
-            // For AJAX, return JSON error
-            if ($request->ajax()) {
-                return response()->json(['error' => 'Please login to book an appointment.'], 401);
-            }
-            return redirect()->route('login')->with('error', 'Please login to book an appointment.');
+            return $request->ajax()
+                ? response()->json(['error' => 'Please login to book an appointment.'], 401)
+                : redirect()->route('login')->with('error', 'Please login to book an appointment.');
         }
 
         $request->validate([
-            'hospital_id' => 'required',
-            'speciality_id' => 'required',
-            'doctor_id' => 'required',
-            'appointment_date' => 'required|date',
+            'hospital_id' => 'required|exists:hospitals,id',
+            // 👇 fix table name here (specialities vs specialties)
+            'speciality_id' => 'required|exists:specialities,id',
+            'doctor_id' => 'required|exists:doctors,id',
+            'appointment_date' => 'required|date|after_or_equal:today',
             'schedule_id' => 'required|exists:schedules,id',
             'patient_name' => 'required|string|max:255',
-            'patient_email' => 'required|email',
+            'patient_email' => 'required|email|max:255',
             'patient_phone' => 'required|string|max:20',
         ]);
 
-        $schedule = Schedule::findOrFail($request->schedule_id);
+        DB::beginTransaction();
+        try {
+            $schedule = Schedule::where('id', $request->schedule_id)
+                ->lockForUpdate()
+                ->first();
 
-        if ($schedule->status === 'booked') {
-            if ($request->ajax()) {
+            if (!$schedule) {
+                DB::rollBack();
+                return response()->json(['error' => 'Selected slot not found.'], 404);
+            }
+
+            if ($schedule->status !== 'available') {
+                DB::rollBack();
                 return response()->json(['error' => 'This time slot is already booked.'], 422);
             }
-            return redirect()->back()->with('error', 'This time slot is already booked.');
-        }
 
-        $appointment = Appointment::create([
-            'appointment_code' => 'APT-' . time(),
-            'doctor_id'        => $request->doctor_id,
-            'user_id'          => Auth::id(),
-            'patient_name'     => $request->patient_name,
-            'patient_email'    => $request->patient_email,
-            'patient_phone'    => $request->patient_phone,
-            'appointment_date' => $request->appointment_date,
-            'appointment_time' => $schedule->slot_time,
-            'status'           => 'pending',
-        ]);
+            // check existing appointment
+            $exists = Appointment::where('doctor_id', $request->doctor_id)
+                ->where('appointment_date', Carbon::parse($request->appointment_date)->format('Y-m-d'))
+                ->where('appointment_time', $schedule->slot_time)
+                ->exists();
 
-        // Mark schedule as booked
-        $schedule->update(['status' => 'booked', 'appointment_id' => $appointment->id]);
+            if ($exists) {
+                DB::rollBack();
+                return response()->json(['error' => 'This slot is already booked.'], 422);
+            }
 
-        // Return JSON for AJAX
-        if ($request->ajax()) {
+            $appointment = Appointment::create([
+                'appointment_code' => 'APT-' . time(),
+                'doctor_id' => $request->doctor_id,
+                'user_id' => Auth::id(),
+                'patient_name' => $request->patient_name,
+                'patient_email' => $request->patient_email,
+                'patient_phone' => $request->patient_phone,
+                'appointment_date' => Carbon::parse($request->appointment_date)->format('Y-m-d'),
+                'appointment_time' => $schedule->slot_time,
+                'status' => 'pending',
+            ]);
+
+            $schedule->update([
+                'status' => 'booked',
+                'appointment_id' => $appointment->id,
+            ]);
+
+            DB::commit();
+
             return response()->json(['success' => 'Appointment booked successfully!']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return redirect()->back()->with('success', 'Appointment booked successfully!');
     }
+
 
 
 

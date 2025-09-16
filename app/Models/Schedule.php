@@ -13,17 +13,16 @@ class Schedule extends Model
 use HasFactory;
 
 
-protected $fillable = ['doctor_id', 'day', 'slot_time', 'status', 'appointment_id'];
+protected $fillable = ['doctor_id', 'date',  'day', 'slot_time', 'status', 'appointment_id'];
 
 
 public function doctor()
-{
-return $this->belongsTo(Doctor::class);
-}
+    {
+        return $this->belongsTo(Doctor::class);
+    }
 
-
-public function appointment()
-{
-return $this->belongsTo(Appointment::class);
-}
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class);
+    }
 }
