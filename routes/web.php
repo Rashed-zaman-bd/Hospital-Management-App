@@ -15,9 +15,19 @@ Route::get('/about', function () {return view('frontend.pages.about_page');})->n
 Route::get('/services', function () {return view('frontend.pages.services_page');})->name('page.services');
 Route::get('/departments', function () {return view('frontend.pages.departments_page');})->name('page.departments');
 Route::get('/contact', function () {return view('frontend.pages.contact_page');})->name('page.contact');
-Route::get('/appointment-page', function () { return view('frontend.pages.appointment_page'); })->name('page.appointment');
 Route::post('/message-store', [MessageController::class, 'store'])->name('message.store');
-Route::post('/appointment-store', [AppointmentController::class, 'store'])->name('appointment.store');
+
+Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/appointment/store', [AppointmentController::class, 'store'])->name('appointment.store');
+});
+
+Route::get('/get-specialties', [AppointmentController::class, 'getSpecialties'])->name('get.specialties');
+Route::get('/get-doctors', [AppointmentController::class, 'getDoctors'])->name('get.doctors');
+Route::get('/get-schedules', [AppointmentController::class, 'getSchedules'])->name('get.schedules');
+
+
 
 
 

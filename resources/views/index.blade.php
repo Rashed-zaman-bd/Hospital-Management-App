@@ -129,7 +129,7 @@
                             <!-- Image -->
                             <div class="doctor-img-wrapper" style="height: 300px; border-radius: 8px; overflow: hidden;">
                                 @if ($doctor->image)
-                                    <img src="{{ asset($doctor->image) }}" alt="{{ $doctor->name }}"
+                                    <img src="{{ asset('storage/' . $doctor->image) }}" alt="{{ $doctor->name }}"
                                         style="width: 100%; height: 100%; object-fit: cover; object-position: center; overflow: hidden;">
                                 @else
                                     <img src="https://via.placeholder.com/300x300" alt="No Image"
@@ -312,64 +312,6 @@
 
     </section><!-- /Services Section -->
 
-    <!-- Appointment Section -->
-    <section id="appointment" class="appointment section light-background">
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2>MAKE AN APPOINTMENT</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
-                <div class="row">
-                    <div class="col-md-4 form-group">
-                        <input type="text" name="name" class="form-control" id="name"
-                            placeholder="Your Name" required="">
-                    </div>
-                    <div class="col-md-4 form-group mt-3 mt-md-0">
-                        <input type="email" class="form-control" name="email" id="email"
-                            placeholder="Your Email" required="">
-                    </div>
-                    <div class="col-md-4 form-group mt-3 mt-md-0">
-                        <input type="tel" class="form-control" name="phone" id="phone"
-                            placeholder="Your Phone" required="">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 form-group mt-3">
-                        <input type="datetime-local" name="date" class="form-control datepicker" id="date"
-                            placeholder="Appointment Date" required="">
-                    </div>
-                    <div class="col-md-4 form-group mt-3">
-                        <select name="department" id="department" class="form-select" required="">
-                            <option value="">Select Department</option>
-                            <option value="Department 1">Department 1</option>
-                            <option value="Department 2">Department 2</option>
-                            <option value="Department 3">Department 3</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 form-group mt-3">
-                        <select name="doctor" id="doctor" class="form-select" required="">
-                            <option value="">Select Doctor</option>
-                            <option value="Doctor 1">Doctor 1</option>
-                            <option value="Doctor 2">Doctor 2</option>
-                            <option value="Doctor 3">Doctor 3</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group mt-3">
-                    <textarea class="form-control" name="message" rows="5" placeholder="Message (Optional)"></textarea>
-                </div>
-                <div class="mt-3">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Your appointment request has been sent successfully. Thank you!</div>
-                    <div class="text-center"><button type="submit">Make an Appointment</button></div>
-                </div>
-            </form>
-        </div>
-    </section><!-- /Appointment Section -->
-
     <!-- Tabs Section -->
     <section id="tabs" class="tabs section">
 
@@ -531,12 +473,12 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="testimonial-item" "="">
-                                                                                                                                                                                                                       <p>
-                                                                                                                                                                                                                         <i class=" bi bi-quote quote-icon-left"></i>
-                                                                                                                                                                                                                           <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
-                                                                                                                                                                                                                           <i class="bi bi-quote quote-icon-right"></i>
-                                                                                                                                                                                                                        </p>
-                                                                                                                                                                                                                        <img src="assets/img/testimonials/testimoclass="testimonial-img"
+                                                                                                                                                                                                                                       <p>
+                                                                                                                                                                                                                                         <i class=" bi bi-quote quote-icon-left"></i>
+                                                                                                                                                                                                                                           <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
+                                                                                                                                                                                                                                           <i class="bi bi-quote quote-icon-right"></i>
+                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                        <img src="assets/img/testimonials/testimoclass="testimonial-img"
                             alt="">
                             <h3>Saul Goodman</h3>
                             <h4>Ceo &amp; Founder</h4>

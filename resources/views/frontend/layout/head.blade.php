@@ -1,5 +1,6 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
 <title>
     @hasSection('title')
         @yield('title') | {{ config('app.name') }}
@@ -31,3 +32,5 @@
 
 <!-- Main CSS File -->
 <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

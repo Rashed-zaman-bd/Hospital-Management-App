@@ -1,95 +1,157 @@
-<section id="appointment" class="appointment section light-background">
-    <div class="container section-title" data-aos="fade-up">
-        <h2>MAKE AN APPOINTMENT</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+<h1 class="container mb-3 mt-4">Book an Appointment</h1>
+<form action="{{ route('appointment.store') }}" method="POST" class="container">
+    @csrf
+    <div class="mb-3">
+        <label for="hospital" class="form-label">Select Hospital:</label>
+        <select name="hospital_id" id="hospital" class="form-control" required>
+            <option value="">-- Select Hospital --</option>
+            @foreach ($hospitals as $hospital)
+                <option value="{{ $hospital->id }}">{{ $hospital->name }}</option>
+            @endforeach
+        </select>
     </div>
 
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <form id="appointmentForm" action="{{ route('appointment.store') }}" method="post" role="form">
-            @csrf
-            <div class="row">
-                <div class="col-md-4 form-group">
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                        placeholder="Your Name" required>
-                    @error('name')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="col-md-4 form-group mt-3 mt-md-0">
-                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                        value="" placeholder="Your Email">
-                    @error('email')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="col-md-4 form-group mt-3 mt-md-0">
-                    <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror"
-                        placeholder="Your Phone" required>
-                    @error('phone')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4 form-group mt-3">
-                    <input type="date" name="date" class="form-control" required>
-                </div>
-                <div class="col-md-4 form-group mt-3">
-                    <select name="department" class="form-select" required>
-                        <option value="">Select Department</option>
-                        <option value="Department 1">Department 1</option>
-                        <option value="Department 2">Department 2</option>
-                        <option value="Department 3">Department 3</option>
-                    </select>
-                </div>
-                <div class="col-md-4 form-group mt-3">
-                    @if (request('doctor'))
-                        <input type="hidden" name="doctor" value="{{ request('doctor') }}">
-                        <input type="text" class="form-control" value="{{ request('doctor') }}" disabled>
-                    @else
-                        <select name="doctor" class="form-select" required>
-                            <option value="">Select Doctor</option>
-                            <option value="Doctor 1">Doctor 1</option>
-                            <option value="Doctor 2">Doctor 2</option>
-                            <option value="Doctor 3">Doctor 3</option>
-                        </select>
-                    @endif
-
-
-                </div>
-            </div>
-
-            <div class="form-group mt-3">
-                <textarea class="form-control @error('message') is-invalid @enderror" name="message" id="message" rows="5"
-                    maxlength="200" placeholder="Message">{{ old('message') }}</textarea>
-
-                <!-- Character counter -->
-                <small id="charCount" class="text-muted">0 / 200 characters</small>
-
-                @error('message')
-                    <div class="alert alert-danger mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="mt-3">
-                <div class="text-center">
-                    <button type="submit"
-                        style="background-color: #3f73c0; color: white; padding: 10px 40px; border: none; border-radius: 5px;">
-                        Send Message
-                    </button>
-                </div>
-            </div>
-        </form>
+    <div class="mb-3">
+        <label for="specialty" class="form-label">Select Specialty:</label>
+        <select name="speciality_id" id="specialty" class="form-control" required>
+            <option value="">-- Select Specialty --</option>
+        </select>
     </div>
-</section>
 
+    <div class="mb-3">
+        <label for="doctor" class="form-label">Select Doctor:</label> <select name="doctor_id" id="doctor"
+            class="form-control" required>
+            <option value="">-- Select Doctor --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="appointment_date" class="form-label">Select Date:</label>
+        <input type="date" id="appointment_date" name="appointment_date" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="schedule" class="form-label">Select Schedule:</label>
+        <select name="schedule_id" id="schedule" class="form-control">
+            <option value="">-- Select Schedule --</option>
+        </select>
+    </div> <!-- Patient Info -->
+    <div class="mb-3">
+        <label for="patient_name" class="form-label">Patient Name</label>
+        <input type="text" id="patient_name" name="patient_name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="patient_email" class="form-label">Patient Email</label>
+        <input type="email" id="patient_email" name="patient_email" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="patient_phone" class="form-label">Patient Phone</label>
+        <input type="text" id="patient_phone" name="patient_phone" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Book Appointment</button>
+</form>
+<div id="responseMsg" class="mt-3"></div>
 <script>
-    document.getElementById('appointmentForm').addEventListener('submit', function(e) {
-        @if (!Auth::check())
+    $(document).ready(function() {
+
+        // Load specialties
+        $('#hospital').change(function() {
+            var hospitalId = $(this).val();
+            $('#specialty, #doctor, #schedule').empty().append(
+                '<option value="">-- Select --</option>');
+
+            if (hospitalId) {
+                $.get('{{ route('get.specialties') }}', {
+                    hospital_id: hospitalId
+                }, function(data) {
+                    $.each(data, function(key, value) {
+                        $('#specialty').append('<option value="' + value.id + '">' +
+                            value.name + '</option>');
+                    });
+                });
+            }
+        });
+
+        // Load doctors
+        $('#specialty').change(function() {
+            var specialtyId = $(this).val();
+            var hospitalId = $('#hospital').val();
+            $('#doctor, #schedule').empty().append('<option value="">-- Select --</option>');
+
+            if (specialtyId && hospitalId) {
+                $.get('{{ route('get.doctors') }}', {
+                    hospital_id: hospitalId,
+                    speciality_id: specialtyId
+                }, function(data) {
+                    $.each(data, function(key, value) {
+                        $('#doctor').append('<option value="' + value.id + '">' + value
+                            .name + '</option>');
+                    });
+                });
+            }
+        });
+
+        // Load schedules
+        $('#doctor, #appointment_date').change(function() {
+            var doctorId = $('#doctor').val();
+            var date = $('#appointment_date').val();
+            $('#schedule').empty().append('<option value="">-- Select Schedule --</option>');
+
+            if (doctorId && date) {
+                $.get('{{ route('get.schedules') }}', {
+                    doctor_id: doctorId,
+                    date: date
+                }, function(data) {
+                    $.each(data, function(key, value) {
+                        var disabled = value.status === 'booked' ? 'disabled' : '';
+                        $('#schedule').append('<option value="' + value.id + '" ' +
+                            disabled + '>' + value.slot_time + ' (' + value.status +
+                            ')</option>');
+                    });
+                });
+            }
+        });
+
+
+        // AJAX form submission
+        $('form').submit(function(e) {
             e.preventDefault();
-            alert('Please login first to make an appointment.');
-            window.location.href = "{{ route('login') }}";
-        @endif
+            var form = $(this);
+
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: form.serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        $('#responseMsg').html('<div class="alert alert-success">' +
+                            response.success + '</div>');
+                        form[0].reset();
+                        $('#specialty, #doctor, #schedule').empty().append(
+                            '<option value="">-- Select --</option>');
+                    } else if (response.error) {
+                        $('#responseMsg').html('<div class="alert alert-danger">' + response
+                            .error + '</div>');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) { // validation errors
+                        let errors = xhr.responseJSON.errors;
+                        let errorHtml = '<div class="alert alert-danger"><ul>';
+                        $.each(errors, function(key, value) {
+                            errorHtml += '<li>' + value[0] + '</li>';
+                        });
+                        errorHtml += '</ul></div>';
+                        $('#responseMsg').html(errorHtml);
+                    } else {
+                        $('#responseMsg').html(
+                            '<div class="alert alert-danger">Something went wrong.</div>'
+                        );
+                    }
+                }
+            });
+        });
+
+
     });
 </script>
