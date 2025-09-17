@@ -154,10 +154,15 @@
 
                             <!-- Button -->
                             <div class="p-3 mt-auto">
-                                <a href="#" class="btn btn-dark w-100 shadow-sm"
-                                    style="background: #3f73c0; border: none;">
+                                <a href="{{ route('appointment.create', [
+                                    'hospital_id' => $doctor->hospital_id,
+                                    'speciality_id' => $doctor->speciality_id,
+                                    'doctor_id' => $doctor->id,
+                                ]) }}"
+                                    class="btn btn-dark w-100 shadow-sm" style="background: #3f73c0; border: none;">
                                     Book an Appointment
                                 </a>
+
                             </div>
                         </div>
                     </div>
@@ -473,12 +478,12 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="testimonial-item" "="">
-                                                                                                                                                                                                                                       <p>
-                                                                                                                                                                                                                                         <i class=" bi bi-quote quote-icon-left"></i>
-                                                                                                                                                                                                                                           <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
-                                                                                                                                                                                                                                           <i class="bi bi-quote quote-icon-right"></i>
-                                                                                                                                                                                                                                        </p>
-                                                                                                                                                                                                                                        <img src="assets/img/testimonials/testimoclass="testimonial-img"
+                                                                                                                                                                                                                                                       <p>
+                                                                                                                                                                                                                                                         <i class=" bi bi-quote quote-icon-left"></i>
+                                                                                                                                                                                                                                                           <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
+                                                                                                                                                                                                                                                           <i class="bi bi-quote quote-icon-right"></i>
+                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                        <img src="assets/img/testimonials/testimoclass="testimonial-img"
                             alt="">
                             <h3>Saul Goodman</h3>
                             <h4>Ceo &amp; Founder</h4>

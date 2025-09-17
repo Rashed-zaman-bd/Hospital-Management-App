@@ -18,11 +18,17 @@ use Illuminate\Support\Facades\Auth;
 class AppointmentController extends Controller
 {
     // Page
-    public function create()
-    {
-        $hospitals = Hospital::all();
-        return view('frontend.pages.appointment_page', compact('hospitals'));
-    }
+   public function create(Request $request)
+{
+    $hospitals = Hospital::all();
+
+    return view('frontend.pages.appointment_page', [
+        'hospitals' => $hospitals,
+        'selectedHospital' => $request->hospital_id,
+        'selectedSpeciality' => $request->speciality_id,
+        'selectedDoctor' => $request->doctor_id,
+    ]);
+}
 
 
 
@@ -122,6 +128,8 @@ class AppointmentController extends Controller
                 : redirect()->route('login')->with('error', 'Please login to book an appointment.');
         }
 
+
+
         $request->validate([
             'hospital_id' => 'required|exists:hospitals,id',
             // 👇 fix table name here (specialities vs specialties)
@@ -132,6 +140,7 @@ class AppointmentController extends Controller
             'patient_name' => 'required|string|max:255',
             'patient_email' => 'required|email|max:255',
             'patient_phone' => 'required|string|max:20',
+            'doctor_fee' => 'required|numeric|min:0', // ✅ validate doctor fee
         ]);
 
         DB::beginTransaction();
@@ -170,6 +179,7 @@ class AppointmentController extends Controller
                 'patient_phone' => $request->patient_phone,
                 'appointment_date' => Carbon::parse($request->appointment_date)->format('Y-m-d'),
                 'appointment_time' => $schedule->slot_time,
+                'doctor_fee' => $request->doctor_fee, // ✅ save doctor fee
                 'status' => 'pending',
             ]);
 
@@ -185,6 +195,8 @@ class AppointmentController extends Controller
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);
         }
+
+
     }
 
 

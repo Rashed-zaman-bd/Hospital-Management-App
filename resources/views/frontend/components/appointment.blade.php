@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div class="container mt-4 col-md-4">
     <h1 class="mb-3">Book Appointment</h1>
     <form id="appointmentForm" action="{{ route('appointment.store') }}" method="POST" class="container">
         @csrf
@@ -7,9 +7,13 @@
             <select name="hospital_id" id="hospital" class="form-control" required>
                 <option value="">-- Select Hospital --</option>
                 @foreach ($hospitals as $hospital)
-                    <option value="{{ $hospital->id }}">{{ $hospital->name }}</option>
+                    <option value="{{ $hospital->id }}"
+                        {{ isset($selectedHospital) && $selectedHospital == $hospital->id ? 'selected' : '' }}>
+                        {{ $hospital->name }}
+                    </option>
                 @endforeach
             </select>
+
         </div>
 
         <div class="mb-3">
@@ -25,6 +29,12 @@
                 <option value="">-- Select Doctor --</option>
             </select>
         </div>
+
+        <div class="mb-3">
+            <label for="doctor_fee" class="form-label">Doctor Fee</label>
+            <input type="text" id="doctor_fee" name="doctor_fee" class="form-control" readonly>
+        </div>
+
 
         <div class="mb-3">
             <label for="appointment_date" class="form-label">Select Date:</label>
@@ -99,6 +109,7 @@
             var hospitalId = $('#hospital').val();
             $('#doctor, #schedule').empty().append('<option value="">-- Select --</option>');
             $('#appointment_date').val('');
+            $('#doctor_fee').val(''); // clear fee when specialty changes
 
             if (specialtyId && hospitalId) {
                 $.ajax({
@@ -114,7 +125,11 @@
                             '<option value="">-- Select Doctor --</option>');
                         $.each(data, function(key, value) {
                             $('#doctor').append(
-                                $('<option>').val(value.id).text(value.name)
+                                $('<option>')
+                                .val(value.id)
+                                .text(value.name)
+                                .attr('data-fee', value
+                                    .fee) // store fee in option
                             );
                         });
                     },
@@ -126,6 +141,13 @@
                 });
             }
         });
+
+        // When doctor is selected, set fee input
+        $('#doctor').on('change', function() {
+            var fee = $(this).find(':selected').data('fee') || '';
+            $('#doctor_fee').val(fee);
+        });
+
 
         // Load schedules
         $('#doctor, #appointment_date').on('change', function() {
@@ -166,86 +188,76 @@
             }
         });
 
+        // Auto load if doctor preselected
+        let preHospital = "{{ $selectedHospital ?? '' }}";
+        let preSpeciality = "{{ $selectedSpeciality ?? '' }}";
+        let preDoctor = "{{ $selectedDoctor ?? '' }}";
 
-        $('#appointmentForm').on('submit', function(e) {
-            e.preventDefault();
-            $('#responseMsg').html(''); // clear
+        if (preHospital) {
+            $('#hospital').val(preHospital).trigger('change');
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        $('#responseMsg').html('<div class="alert alert-success">' +
-                            response.success + '</div>');
-                        $('#appointmentForm')[0].reset();
-                        $('#specialty, #doctor, #schedule').empty().append(
-                            '<option value="">-- Select --</option>');
-                        $('#appointment_date').val('');
-                    } else if (response.error) {
-                        $('#responseMsg').html('<div class="alert alert-danger">' + response
-                            .error + '</div>');
-                    } else {
-                        $('#responseMsg').html(
-                            '<div class="alert alert-info">Unexpected response from server.</div>'
-                        );
-                    }
-                },
-                error: function(xhr) {
-                    // 401 = not authenticated (login required)
-                    if (xhr.status === 401) {
-                        $('#responseMsg').html(
-                            '<div class="alert alert-warning">Please login to book an appointment. Redirecting to login...</div>'
-                        );
-                        // optionally redirect:
-                        setTimeout(function() {
-                            window.location.href = '/login';
-                        }, 1200);
-                        return;
-                    }
-
-                    // 422 = validation errors
-                    if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
-                        let errors = xhr.responseJSON.errors;
-                        let errorHtml = '<div class="alert alert-danger"><ul>';
-                        $.each(errors, function(key, value) {
-                            errorHtml += '<li>' + value[0] + '</li>';
-                        });
-                        errorHtml += '</ul></div>';
-                        $('#responseMsg').html(errorHtml);
-                        return;
-                    }
-
-                    // If server returned JSON with error message
-                    if (xhr.responseJSON && xhr.responseJSON.error) {
-                        $('#responseMsg').html('<div class="alert alert-danger">' + xhr
-                            .responseJSON.error + '</div>');
-                        return;
-                    }
-
-                    // If returned HTML (likely a redirect to login), attempt to detect
-                    const responseText = xhr.responseText || '';
-                    if (responseText.indexOf('<!doctype html') !== -1 || responseText
-                        .indexOf('<html') !== -1) {
-                        // probably a redirect to login page (HTML)
-                        $('#responseMsg').html(
-                            '<div class="alert alert-warning">You must be logged in. Redirecting to login...</div>'
-                        );
-                        setTimeout(function() {
-                            window.location.href = '/login';
-                        }, 1200);
-                        return;
-                    }
-
-                    // fallback
-                    $('#responseMsg').html(
-                        '<div class="alert alert-danger">Something went wrong. Please try again.</div>'
-                    );
+            // After specialties load
+            $(document).one('ajaxSuccess', function(e, xhr, settings) {
+                if (settings.url.includes("get-specialties") && preSpeciality) {
+                    $('#specialty').val(preSpeciality).trigger('change');
                 }
             });
+
+            // After doctors load
+            $(document).on('ajaxSuccess', function(e, xhr, settings) {
+                if (settings.url.includes("get-doctors") && preDoctor) {
+                    $('#doctor').val(preDoctor).trigger('change');
+
+                    // Set fee immediately
+                    let fee = $('#doctor').find(':selected').data('fee') || '';
+                    $('#doctor_fee').val(fee);
+                }
+            });
+        }
+
+
+        //Ajax form submission
+        $('#appointmentForm').on('submit', function(e) {
+            e.preventDefault(); // prevent normal form submission
+            $('#responseMsg').html(''); // clear previous messages
+
+            $.post($(this).attr('action'), $(this).serialize())
+                .done(function(response) {
+                    // On success
+                    $('#responseMsg').html(
+                        `<div class="alert alert-success">${response.success}</div>`
+                    );
+
+                    // Reset form and dropdowns
+                    $('#appointmentForm')[0].reset();
+                    $('#specialty, #doctor, #schedule').html(
+                        '<option value="">-- Select --</option>');
+                })
+                .fail(function(xhr) {
+                    // Default error message
+                    let msg = 'Something went wrong. Please try again.';
+
+                    // If user not logged in
+                    if (xhr.status === 401) {
+                        msg = 'Please login to book an appointment.';
+                    }
+                    // Validation errors
+                    else if (xhr.status === 422 && xhr.responseJSON?.errors) {
+                        msg = '<ul>';
+                        $.each(xhr.responseJSON.errors, function(_, errors) {
+                            msg += `<li>${errors[0]}</li>`;
+                        });
+                        msg += '</ul>';
+                    }
+                    // Server returned JSON error
+                    else if (xhr.responseJSON?.error) {
+                        msg = xhr.responseJSON.error;
+                    }
+
+                    $('#responseMsg').html(`<div class="alert alert-danger">${msg}</div>`);
+                });
         });
+
 
 
     });
