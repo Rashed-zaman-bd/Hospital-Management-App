@@ -44,7 +44,7 @@ class MessageController extends Controller
     public function destroy(string $id)
     {
         Message::findOrFail($id)->delete();
-        sweetalert()->success('Message deleted successfully');
+        toastr()->success('Delete successfully');
         return redirect()->back();
     }
 }

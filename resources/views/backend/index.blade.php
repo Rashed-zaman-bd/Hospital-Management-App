@@ -66,26 +66,32 @@
                         <th class="px-4 py-2">Sl. No</th>
                         <th class="px-4 py-2">Doctor Name</th>
                         <th class="px-4 py-2">Department</th>
+                        <th class="px-4 py-2">Hospital Name</th>
                         <th class="px-4 py-2">Date</th>
+                        <th class="px-4 py-2">Time</th>
+                        <th class="px-4 py-2">Doctor Fee</th>
                         <th class="px-4 py-2">Patient ID</th>
                         <th class="px-4 py-2">Patient Name</th>
                         <th class="px-4 py-2">Phone</th>
                         <th class="px-4 py-2">Email</th>
-                        <th class="px-4 py-2">Message</th>
+                        <th class="px-4 py-2">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($appointments as $key=>$appointment)
                         <tr class="border-b">
                             <td class="px-4 py-2">{{ $key + 1 }}</td>
-                            <td class="px-4 py-2">{{ $appointment->doctor }}</td>
-                            <td class="px-4 py-2">{{ $appointment->department }}</td>
-                            <td>{{ \Carbon\Carbon::parse($appointment->date)->format('d/m/Y') }}</td>
-                            <td class="px-4 py-2">{{ $appointment->appointment_id }}</td>
-                            <td class="px-4 py-2">{{ $appointment->name }}</td>
-                            <td class="px-4 py-2">{{ $appointment->phone }}</td>
-                            <td class="px-4 py-2">{{ $appointment->email }}</td>
-                            <td class="px-4 py-2">{{ substr($appointment->message, 0, 50) }}...</td>
+                            <td class="px-4 py-2">{{ $appointment->doctor_name }}</td>
+                            <td class="px-4 py-2">{{ $appointment->speciality }}</td>
+                            <td class="px-4 py-2">{{ $appointment->hospital_name }}</td>
+                            <td>{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($appointment->appointment_time)->format('H:m') }}</td>
+                            <td class="px-4 py-2">{{ $appointment->doctor_fee }}</td>
+                            <td class="px-4 py-2">{{ $appointment->appointment_code }}</td>
+                            <td class="px-4 py-2">{{ $appointment->patient_name }}</td>
+                            <td class="px-4 py-2">{{ $appointment->patient_phone }}</td>
+                            <td class="px-4 py-2">{{ $appointment->patient_email }}</td>
+                            <td class="px-4 py-2">{{ $appointment->status }}</td>
                         </tr>
                     @empty
                         <tr>

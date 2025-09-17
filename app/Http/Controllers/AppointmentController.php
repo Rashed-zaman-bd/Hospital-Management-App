@@ -128,19 +128,16 @@ class AppointmentController extends Controller
                 : redirect()->route('login')->with('error', 'Please login to book an appointment.');
         }
 
-
-
         $request->validate([
-            'hospital_id' => 'required|exists:hospitals,id',
-            // 👇 fix table name here (specialities vs specialties)
-            'speciality_id' => 'required|exists:specialities,id',
-            'doctor_id' => 'required|exists:doctors,id',
-            'appointment_date' => 'required|date|after_or_equal:today',
-            'schedule_id' => 'required|exists:schedules,id',
-            'patient_name' => 'required|string|max:255',
-            'patient_email' => 'required|email|max:255',
-            'patient_phone' => 'required|string|max:20',
-            'doctor_fee' => 'required|numeric|min:0', // ✅ validate doctor fee
+            'hospital_id'     => 'required|exists:hospitals,id',
+            'speciality_id'   => 'required|exists:specialities,id',
+            'doctor_id'       => 'required|exists:doctors,id',
+            'appointment_date'=> 'required|date|after_or_equal:today',
+            'schedule_id'     => 'required|exists:schedules,id',
+            'patient_name'    => 'required|string|max:255',
+            'patient_email'   => 'required|email|max:255',
+            'patient_phone'   => 'required|string|max:20',
+            'doctor_fee'      => 'required|numeric|min:0',
         ]);
 
         DB::beginTransaction();
@@ -159,6 +156,11 @@ class AppointmentController extends Controller
                 return response()->json(['error' => 'This time slot is already booked.'], 422);
             }
 
+            // Fetch related names
+            $hospital   = Hospital::findOrFail($request->hospital_id);
+            $speciality = Speciality::findOrFail($request->speciality_id);
+            $doctor     = Doctor::findOrFail($request->doctor_id);
+
             // check existing appointment
             $exists = Appointment::where('doctor_id', $request->doctor_id)
                 ->where('appointment_date', Carbon::parse($request->appointment_date)->format('Y-m-d'))
@@ -172,19 +174,22 @@ class AppointmentController extends Controller
 
             $appointment = Appointment::create([
                 'appointment_code' => 'APT-' . time(),
-                'doctor_id' => $request->doctor_id,
-                'user_id' => Auth::id(),
-                'patient_name' => $request->patient_name,
-                'patient_email' => $request->patient_email,
-                'patient_phone' => $request->patient_phone,
+                'doctor_id'        => $doctor->id,
+                'user_id'          => Auth::id(),
+                'hospital_name'    => $hospital->name,
+                'speciality'       => $speciality->name,
+                'doctor_name'      => $doctor->name,
+                'patient_name'     => $request->patient_name,
+                'patient_email'    => $request->patient_email,
+                'patient_phone'    => $request->patient_phone,
                 'appointment_date' => Carbon::parse($request->appointment_date)->format('Y-m-d'),
                 'appointment_time' => $schedule->slot_time,
-                'doctor_fee' => $request->doctor_fee, // ✅ save doctor fee
-                'status' => 'pending',
+                'doctor_fee'       => $request->doctor_fee,
+                'status'           => 'pending',
             ]);
 
             $schedule->update([
-                'status' => 'booked',
+                'status'         => 'booked',
                 'appointment_id' => $appointment->id,
             ]);
 
@@ -195,9 +200,8 @@ class AppointmentController extends Controller
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
-
     }
+
 
 
 

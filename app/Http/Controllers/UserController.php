@@ -109,7 +109,7 @@ class UserController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
+        toastr()->success('Logout successfully');
         return redirect('/');
     }
 }

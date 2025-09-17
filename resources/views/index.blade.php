@@ -187,7 +187,7 @@
             <div class="row gy-4">
                 <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="100">
                     <img src="assets/img/about.jpg" class="img-fluid" alt="">
-                    <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
+                    <a href="https://www.youtube.com/watch?v=TsuZsm07mGY&t=15s" class="glightbox pulsating-play-btn"></a>
                 </div>
                 <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="200">
                     <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
@@ -478,12 +478,12 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="testimonial-item" "="">
-                                                                                                                                                                                                                                                       <p>
-                                                                                                                                                                                                                                                         <i class=" bi bi-quote quote-icon-left"></i>
-                                                                                                                                                                                                                                                           <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
-                                                                                                                                                                                                                                                           <i class="bi bi-quote quote-icon-right"></i>
-                                                                                                                                                                                                                                                        </p>
-                                                                                                                                                                                                                                                        <img src="assets/img/testimonials/testimoclass="testimonial-img"
+                                                                                                                                                                                                                                                                       <p>
+                                                                                                                                                                                                                                                                         <i class=" bi bi-quote quote-icon-left"></i>
+                                                                                                                                                                                                                                                                           <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
+                                                                                                                                                                                                                                                                           <i class="bi bi-quote quote-icon-right"></i>
+                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                        <img src="assets/img/testimonials/testimoclass="testimonial-img"
                             alt="">
                             <h3>Saul Goodman</h3>
                             <h4>Ceo &amp; Founder</h4>
@@ -723,7 +723,7 @@
 
         <div class="mb-5" data-aos="fade-up" data-aos-delay="200">
             <iframe style="border:0; width: 100%; height: 370px;"
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.031270861464!2d90.39945221498153!3d23.87585498453127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c43d69a81e0f%3A0xa8c1f79f144bd6b2!2sUttara%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1694949220097!5m2!1sen!2sbd"
                 frameborder="0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div><!-- End Google Maps -->
 
@@ -738,7 +738,7 @@
                                 data-aos="fade-up" data-aos-delay="200">
                                 <i class="bi bi-geo-alt"></i>
                                 <h3>Address</h3>
-                                <p>A108 Adam Street, New York, NY 535022</p>
+                                <p>U101 Adam Street, New Uttara, NU 535022</p>
                             </div>
                         </div><!-- End Info Item -->
 
@@ -747,7 +747,7 @@
                                 data-aos="fade-up" data-aos-delay="300">
                                 <i class="bi bi-telephone"></i>
                                 <h3>Call Us</h3>
-                                <p>+1 5589 55488 55</p>
+                                <p>+12 3456 789 00</p>
                             </div>
                         </div><!-- End Info Item -->
 

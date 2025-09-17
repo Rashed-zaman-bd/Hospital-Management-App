@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DoctorController;
+use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppointmentController;
-use Faker\Guesser\Name;
 use Symfony\Component\Translation\MessageCatalogue;
+use App\Http\Controllers\BackendAppointmentController;
 
 Route::get('/', [DoctorController::class, 'index'])->name('page.index');
 Route::get('/about', function () {return view('frontend.pages.about_page');})->name('page.about');
@@ -56,6 +57,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/doctor/edit/{doctor}', [DoctorController::class, 'edit'])->name('doctor.edit');
     Route::put('/doctor/update/{doctor}', [DoctorController::class, 'update'])->name('doctor.update');
     Route::delete('/doctor/delete/{doctor}', [DoctorController::class, 'destroy'])->name('doctor.delete');
+
+    Route::get('/appointment/all', [BackendAppointmentController::class, 'index'])->name('appointment.backend');
+    Route::delete('/appointment/{id}', [BackendAppointmentController::class, 'destroy'])->name('delete.appointment');
 
 });
 
