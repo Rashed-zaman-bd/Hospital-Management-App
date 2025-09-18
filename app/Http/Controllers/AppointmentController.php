@@ -202,6 +202,27 @@ class AppointmentController extends Controller
         }
     }
 
+    public function showComplete($id)
+    {
+        $appointment = Appointment::findOrFail($id); // fetch appointment by ID
+        return view('backend.pages.appointments.complete', compact('appointment'));
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $appointment = Appointment::findOrFail($id);
+
+        // validate
+        $request->validate([
+            'status' => 'required|string',
+        ]);
+
+        $appointment->status = $request->status;
+        $appointment->save();
+
+        return redirect()->route('appointments.complete', $appointment->id)
+                        ->with('success', 'Appointment status updated successfully!');
+    }
 
 
 

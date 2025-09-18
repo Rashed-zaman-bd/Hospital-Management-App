@@ -59,6 +59,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/appointment/all', [BackendAppointmentController::class, 'index'])->name('appointment.backend');
     Route::delete('/appointment/{id}', [BackendAppointmentController::class, 'destroy'])->name('delete.appointment');
+    // Show appointment details page
+    Route::get('/appointments/{id}/complete', [AppointmentController::class, 'showComplete'])->name('appointments.complete');
+
+    // Update appointment status
+    Route::post('/appointments/{id}/update-status', [AppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
+
 
 });
 

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('patient_phone');
             $table->date('appointment_date');
             $table->time('appointment_time');
-            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'complete', 'cancelled'])->default('pending');
             $table->timestamps();
 
             $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');

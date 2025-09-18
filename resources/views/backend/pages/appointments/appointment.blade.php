@@ -58,7 +58,7 @@
                             <td>{{ $appointment->patient_email }}</td>
                             <td>{{ $appointment->status }}</td>
                             <td>
-                                <a href=""
+                                <a href="{{ route('appointments.complete', $appointment->id) }}"
                                     class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow">Complete</a>
                                 <form action="{{ route('delete.appointment', $appointment->id) }}" method="post">
                                     @csrf
@@ -100,12 +100,12 @@
 
                         let select = $(
                                 '<select class="border px-2 py-1 rounded w-full"><option value="">All</option></select>'
-                                )
+                            )
                             .appendTo(th.empty())
                             .on('change', function() {
                                 let val = $.fn.dataTable.util.escapeRegex($(this).val());
                                 column.search(val ? '^' + val + '$' : '', true, false)
-                                .draw();
+                                    .draw();
                             });
 
                         column.data().unique().sort().each(function(d) {
