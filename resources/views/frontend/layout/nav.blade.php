@@ -56,7 +56,7 @@
                     <li><a href="{{ route('page.about') }}">About</a></li>
                     <li><a href="{{ route('page.services') }}">Services</a></li>
                     <li><a href="{{ route('page.departments') }}">Departments</a></li>
-                    <li><a href="">Doctors</a></li>
+                    <li><a href="{{ route('page.doctors') }}">Doctors</a></li>
                     <li class="dropdown"><a href="#"><span>Dropdown</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>

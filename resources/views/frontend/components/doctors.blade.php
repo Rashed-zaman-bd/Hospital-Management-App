@@ -1,5 +1,4 @@
 <section id="doctors" class="doctors section light-background">
-
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
         <h2>Doctors</h2>
@@ -7,80 +6,54 @@
     </div><!-- End Section Title -->
 
     <div class="container">
+        <div class="row gy-3">
 
-        <div class="row gy-4">
+            @foreach ($doctors as $doctor)
+                <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="">
+                    <div class="card shadow-lg border-0 rounded-3 h-100 position-relative overflow-hidden"
+                        style="background: linear-gradient(145deg, #f8f9fa, #ffffff); display: flex; flex-direction: column;">
 
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-                <div class="team-member">
-                    <div class="member-img">
-                        <img src="assets/img/doctors/doctors-1.jpg" class="img-fluid" alt="">
-                        <div class="social">
-                            <a href=""><i class="bi bi-twitter-x"></i></a>
-                            <a href=""><i class="bi bi-facebook"></i></a>
-                            <a href=""><i class="bi bi-instagram"></i></a>
-                            <a href=""><i class="bi bi-linkedin"></i></a>
+                        <!-- Image -->
+                        <div class="doctor-img-wrapper" style="height: 300px; border-radius: 8px; overflow: hidden;">
+                            @if ($doctor->image)
+                                <img src="{{ asset('storage/' . $doctor->image) }}" alt="{{ $doctor->name }}"
+                                    style="width: 100%; height: 100%; object-fit: cover; object-position: center; overflow: hidden;">
+                            @else
+                                <img src="https://via.placeholder.com/300x300" alt="No Image"
+                                    style="width: 100%; height: 100%; object-fit: cover; object-position: center; overflow: hidden;">
+                            @endif
+                        </div>
+
+                        <!-- Title / Info -->
+                        <div class="text-start p-3">
+                            <h6 class="fw-bold text-dark mb-1">{{ $doctor->name }}</h6>
+                            <small class="text-muted">{{ $doctor->description ?? 'Doctor' }}</small>
+
+                            <h6 class="fw-semi-bold text-dark mt-3">Speciality</h6>
+                            <small class="text-muted">{{ $doctor->speciality ?? 'Not Available' }}</small>
+
+                            <h6 class="fw-semi-bold text-dark mt-3">Qualification</h6>
+                            <small class="text-muted">{{ $doctor->qualification ?? 'Not Provided' }}</small>
+
+                            <h6 class="fw-semi-bold text-dark mt-3">Hospital</h6>
+                            <small class="text-muted">{{ $doctor->hospital ?? 'Not Mentioned' }}</small>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="p-3 mt-auto">
+                            <a href="{{ route('appointment.create', [
+                                'hospital_id' => $doctor->hospital_id,
+                                'speciality_id' => $doctor->speciality_id,
+                                'doctor_id' => $doctor->id,
+                            ]) }}"
+                                class="btn btn-dark w-100 shadow-sm" style="background: #3f73c0; border: none;">
+                                Book an Appointment
+                            </a>
+
                         </div>
                     </div>
-                    <div class="member-info">
-                        <h4>Walter White</h4>
-                        <span>Chief Medical Officer</span>
-                    </div>
                 </div>
-            </div><!-- End Team Member -->
-
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-                <div class="team-member">
-                    <div class="member-img">
-                        <img src="assets/img/doctors/doctors-2.jpg" class="img-fluid" alt="">
-                        <div class="social">
-                            <a href=""><i class="bi bi-twitter-x"></i></a>
-                            <a href=""><i class="bi bi-facebook"></i></a>
-                            <a href=""><i class="bi bi-instagram"></i></a>
-                            <a href=""><i class="bi bi-linkedin"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4>Sarah Jhonson</h4>
-                        <span>Anesthesiologist</span>
-                    </div>
-                </div>
-            </div><!-- End Team Member -->
-
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-                <div class="team-member">
-                    <div class="member-img">
-                        <img src="assets/img/doctors/doctors-3.jpg" class="img-fluid" alt="">
-                        <div class="social">
-                            <a href=""><i class="bi bi-twitter-x"></i></a>
-                            <a href=""><i class="bi bi-facebook"></i></a>
-                            <a href=""><i class="bi bi-instagram"></i></a>
-                            <a href=""><i class="bi bi-linkedin"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4>William Anderson</h4>
-                        <span>Cardiology</span>
-                    </div>
-                </div>
-            </div><!-- End Team Member -->
-
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
-                <div class="team-member">
-                    <div class="member-img">
-                        <img src="assets/img/doctors/doctors-4.jpg" class="img-fluid" alt="">
-                        <div class="social">
-                            <a href=""><i class="bi bi-twitter-x"></i></a>
-                            <a href=""><i class="bi bi-facebook"></i></a>
-                            <a href=""><i class="bi bi-instagram"></i></a>
-                            <a href=""><i class="bi bi-linkedin"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4>Amanda Jepson</h4>
-                        <span>Neurosurgeon</span>
-                    </div>
-                </div>
-            </div><!-- End Team Member -->
+            @endforeach
 
         </div>
 

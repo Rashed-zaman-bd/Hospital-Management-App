@@ -12,10 +12,16 @@ class DoctorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index()
+{
+    $doctors = Doctor::limit(8)->get();
+    return view('index', compact('doctors'));
+}
+
+    public function frontendIndex()
     {
         $doctors = Doctor::get();
-        return view('index', compact('doctors'));
+        return view('frontend.pages.doctors_page', compact('doctors'));
     }
 
     /**

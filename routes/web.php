@@ -17,15 +17,14 @@ Route::get('/services', function () {return view('frontend.pages.services_page')
 Route::get('/departments', function () {return view('frontend.pages.departments_page');})->name('page.departments');
 Route::get('/contact', function () {return view('frontend.pages.contact_page');})->name('page.contact');
 Route::post('/message-store', [MessageController::class, 'store'])->name('message.store');
+Route::get('/doctors', [DoctorController::class, 'frontendIndex'])->name('page.doctors');
 
 // appointment page
 Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
-
 // ajax helpers
 Route::get('/get-specialties', [AppointmentController::class, 'getSpecialties'])->name('get.specialties');
 Route::get('/get-doctors', [AppointmentController::class, 'getDoctors'])->name('get.doctors');
 Route::get('/get-schedules', [AppointmentController::class, 'getSchedules'])->name('get.schedules');
-
 // store appointment (controller will return JSON 401 if not logged in)
 Route::post('/appointment/store', [AppointmentController::class, 'store'])->name('appointment.store');
 
