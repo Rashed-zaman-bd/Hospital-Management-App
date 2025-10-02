@@ -52,14 +52,13 @@
                                         alt="No Image">
                                 @endif
                             </td>
-
                             <td>{{ $doctor->phone }}</td>
                             <td>{{ $doctor->email }}</td>
                             <td>{{ $doctor->description }}</td>
-                            <td>{{ $doctor->speciality }}</td>
+                            <td>{{ $doctor->speciality ? $doctor->speciality->name : 'N/A' }}</td>
                             <td>{{ $doctor->qualification }}</td>
-                            <td>{{ $doctor->hospital }}</td>
-                            <td>{{ $doctor->location }}</td>
+                            <td>{{ $doctor->hospital ? $doctor->hospital->name : 'N/A' }}</td>
+                            <td>{{ $doctor->hospital ? $doctor->hospital->location : 'N/A' }}</td>
                             <td>
                                 <a href="{{ route('doctor.read', $doctor->id) }}"
                                     class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow">Read</a>
@@ -74,6 +73,7 @@
                             </td>
                         </tr>
                     @endforeach
+
                 </tbody>
             </table>
         </div>

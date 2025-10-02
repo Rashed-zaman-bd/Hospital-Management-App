@@ -143,13 +143,14 @@
                                 <small class="text-muted">{{ $doctor->description ?? 'Doctor' }}</small>
 
                                 <h6 class="fw-semi-bold text-dark mt-3">Speciality</h6>
-                                <small class="text-muted">{{ $doctor->speciality ?? 'Not Available' }}</small>
+                                <small
+                                    class="text-muted">{{ $doctor->speciality ? $doctor->speciality->name : 'N/A' }}</small>
 
                                 <h6 class="fw-semi-bold text-dark mt-3">Qualification</h6>
                                 <small class="text-muted">{{ $doctor->qualification ?? 'Not Provided' }}</small>
 
                                 <h6 class="fw-semi-bold text-dark mt-3">Hospital</h6>
-                                <small class="text-muted">{{ $doctor->hospital ?? 'Not Mentioned' }}</small>
+                                <small class="text-muted">{{ $doctor->hospital ? $doctor->hospital->name : 'N/A' }}</small>
                             </div>
 
                             <!-- Button -->
@@ -481,12 +482,12 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="testimonial-item" "="">
-                                                                                                                                                                                                                                                                                                                                                                                                                               <p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                 <i class=" bi bi-quote quote-icon-left"></i>
-                                                                                                                                                                                                                                                                                                                                                                                                                                   <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                   <i class="bi bi-quote quote-icon-right"></i>
-                                                                                                                                                                                                                                                                                                                                                                                                                                </p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                <img src="assets/img/testimonials/testimoclass="testimonial-img"
+                                                                                                                                                                                                                                                                                                                                                                                                                                       <p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                         <i class=" bi bi-quote quote-icon-left"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                           <span>Proin iaculis purus consequat sessim donec porttitora entum susciAccusantium quam, ultricies eget id, nibh et. Maecen aliquam, risus at semper.</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                           <i class="bi bi-quote quote-icon-right"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                        <img src="assets/img/testimonials/testimoclass="testimonial-img"
                             alt="">
                             <h3>Saul Goodman</h3>
                             <h4>Ceo &amp; Founder</h4>

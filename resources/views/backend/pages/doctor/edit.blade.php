@@ -40,8 +40,14 @@
 
                 <div>
                     <label class="block text-sm font-medium">Speciality</label>
-                    <input name="speciality" value="{{ old('speciality', $doctor->speciality) }}"
-                        class="mt-1 w-full border rounded px-3 py-2">
+                    <select name="speciality_id" class="mt-1 w-full border rounded px-3 py-2">
+                        @foreach ($specialities as $speciality)
+                            <option value="{{ $speciality->id }}"
+                                {{ $doctor->speciality_id == $speciality->id ? 'selected' : '' }}>
+                                {{ $speciality->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div>
@@ -52,8 +58,14 @@
 
                 <div>
                     <label class="block text-sm font-medium">Hospital</label>
-                    <input name="hospital" value="{{ old('hospital', $doctor->hospital) }}"
-                        class="mt-1 w-full border rounded px-3 py-2">
+                    <select name="hospital_id" class="mt-1 w-full border rounded px-3 py-2">
+                        @foreach ($hospitals as $hospital)
+                            <option value="{{ $hospital->id }}"
+                                {{ $doctor->hospital_id == $hospital->id ? 'selected' : '' }}>
+                                {{ $hospital->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div>

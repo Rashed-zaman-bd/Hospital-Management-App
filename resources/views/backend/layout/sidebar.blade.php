@@ -1,5 +1,5 @@
 <aside id="sidebar"
-    class="bg-gray-800 text-white w-64 fixed h-full top-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50">
+    class="bg-gray-800 text-white w-64 fixed h-full top-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50 flex flex-col">
 
     <!-- Logo -->
     <div class="flex items-center p-4">
@@ -8,7 +8,7 @@
     </div>
 
     <!-- Sidebar Menu -->
-    <nav class="p-4">
+    <nav class="p-4 flex-1 overflow-y-auto">
         <ul class="space-y-2">
             <!-- Dashboard -->
             <li>
@@ -87,7 +87,8 @@
 
     <!-- Logout -->
     <div class="p-4 border-t border-gray-700">
-        <a href="{{ route('admin-logout') }}"
-            class="block px-4 py-2 bg-red-500 text-center rounded hover:bg-red-600">Logout</a>
+        <a href="{{ route('admin-logout') }}" class="block px-4 py-2 bg-red-500 text-center rounded hover:bg-red-600">
+            Logout
+        </a>
     </div>
 </aside>

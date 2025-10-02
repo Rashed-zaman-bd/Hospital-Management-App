@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doctor;
+use App\Models\Hospital;
+use App\Models\Speciality;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Flasher\Toastr\Prime\ToastrInterface;
@@ -14,14 +16,16 @@ class DoctorController extends Controller
      */
    public function index()
 {
-    $doctors = Doctor::limit(8)->get();
+    $doctors = Doctor::with(['hospital', 'speciality'])->limit(8)->get();
     return view('index', compact('doctors'));
+
 }
 
     public function frontendIndex()
     {
-        $doctors = Doctor::get();
+        $doctors = Doctor::with(['hospital', 'speciality'])->get();
         return view('frontend.pages.doctors_page', compact('doctors'));
+
     }
 
     /**
@@ -29,7 +33,10 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        return view('backend.pages.doctor.create');
+        $hospitals = Hospital::all();
+        $specialities = Speciality::all();
+
+        return view('backend.pages.doctor.create', compact('hospitals', 'specialities'));
     }
 
     /**
@@ -42,14 +49,14 @@ class DoctorController extends Controller
         'phone'         => ['required','string','max:50'],
         'email'         => ['required','email','max:255'],
         'description'   => ['required','string'],
-        'speciality'    => ['required','string','max:255'],
+        'speciality_id'    => ['required','string','max:255'],
         'qualification' => ['required','string','max:255'],
-        'hospital'      => ['required','string','max:255'],
+        'hospital_id'      => ['nullable','string','max:255'],
         'location'      => ['nullable','string','max:255'],
+        'fee'           => ['nullable','numeric'],
         'image'         => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
     ]);
 
-    // Handle image upload
     if ($request->hasFile('image')) {
         $data['image'] = $request->file('image')->store('doctors', 'public');
     }
@@ -67,14 +74,14 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        $doctors = Doctor::latest()->get();
+         $doctors = Doctor::with(['hospital', 'speciality'])->latest()->get();
         return view('backend.pages.doctor.index', compact('doctors'));
     }
 
      public function read(string $id)
     {
-        $doctors = Doctor::findOrFail($id);
-        return view('backend.pages.doctor.show', compact('doctors'));
+       $doctor = Doctor::with(['hospital', 'speciality'])->findOrFail($id);
+        return view('backend.pages.doctor.show', compact('doctor'));
     }
 
     /**
@@ -82,7 +89,11 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
-        return view('backend.pages.doctor.edit', compact('doctor'));
+        $hospitals = Hospital::all();
+        $specialities = Speciality::all();
+
+        return view('backend.pages.doctor.edit', compact('doctor', 'hospitals', 'specialities'));
+
     }
 
 
@@ -96,10 +107,11 @@ class DoctorController extends Controller
         'phone'         => ['required','string','max:50'],
         'email'         => ['required','email','max:255'],
         'description'   => ['required','string'],
-        'speciality'    => ['required','string','max:255'],
+        'speciality_id' => ['required','string','max:255'],
         'qualification' => ['required','string','max:255'],
-        'hospital'      => ['required','string','max:255'],
+        'hospital_id'      => ['nullable','string','max:255'],
         'location'      => ['nullable','string','max:255'],
+        'fee'           => ['nullable','numeric'],
         'image'         => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
     ]);
 

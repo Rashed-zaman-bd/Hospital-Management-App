@@ -60,12 +60,6 @@
                             <td>
                                 <a href="{{ route('appointments.complete', $appointment->id) }}"
                                     class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow">Complete</a>
-                                <form action="{{ route('delete.appointment', $appointment->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow mt-1 block">Cancel</button>
-                                </form>
                             </td>
                         </tr>
                     @endforeach
